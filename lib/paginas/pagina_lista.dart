@@ -6,8 +6,21 @@ class Pagina_lista extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: TextField(),
-        ));
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Adicione uma tarefa",
+                    hintText: "digite aqui"),
+              ),
+            ),
+            ElevatedButton(onPressed: () {}, child: Text("*"))
+          ],
+        ),
+      ),
+    );
   }
 }
 
