@@ -59,28 +59,16 @@ class Pagina_Lista extends StatelessWidget {
             SizedBox(
               height: 120,
               child: ListView(
-                children: [
-                  Container(
-                    color: Color.fromARGB(255, 0, 171, 250),
-                    width: 50,
-                    height: 50,
-                  ),
-                  Container(
-                    color: Color.fromARGB(255, 250, 0, 104),
-                    width: 50,
-                    height: 50,
-                  ),
-                  Container(
-                    color: Color.fromARGB(255, 250, 0, 250),
-                    width: 50,
-                    height: 50,
-                  ),
-                ],
+                children: [],
               ),
             ),
             SizedBox(
               height: 40,
             ),
+            ListView(
+              shrinkWrap: true,
+              children: [],
+            )
           ],
         ),
       ),
