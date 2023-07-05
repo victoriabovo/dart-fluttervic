@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 final TextEditingController email_controle = TextEditingController();
@@ -33,8 +35,55 @@ class Pagina_Lista extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 40,
+              height: 15,
             ),
+            ListView(
+              shrinkWrap: true,
+              children: const [
+                ListTile(
+                  title: Text("a ariani é fofa."),
+                  subtitle: Text("Você concorda ?"),
+                  leading: Icon(
+                    Icons.question_mark,
+                    size: 30,
+                  ),
+                ),
+                ListTile(
+                  title: Text(" a ariani é chatinha"),
+                  subtitle: Text("Você concorda ?"),
+                  leading: Icon(
+                    Icons.question_mark,
+                    size: 30,
+                  ),
+                ),
+                ListTile(
+                  title: Text(" a ariani é legal."),
+                  subtitle: Text("Você concorda ?"),
+                  leading: Icon(
+                    Icons.question_mark,
+                    size: 30,
+                  ),
+                ),
+                ListTile(
+                  title: Text(" a ariani é bravinha."),
+                  subtitle: Text("Você concorda ?"),
+                  leading: Icon(
+                    Icons.question_mark,
+                    size: 30,
+                  ),
+                ),
+                ListTile(
+                  title: Text(" a ariani é irritadinha."),
+                  subtitle: Text("Você concorda ?"),
+                  leading: Icon(
+                    Icons.question_mark,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+            /* Text("Mestre Jedi Dieimes Nunes"),
+            ElevatedButton(onPressed: () {}, child: Text("Clique aqui"),),*/
             Row(
               children: [
                 Expanded(
@@ -53,22 +102,6 @@ class Pagina_Lista extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: 40,
-            ),
-            SizedBox(
-              height: 120,
-              child: ListView(
-                children: [],
-              ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            ListView(
-              shrinkWrap: true,
-              children: [],
-            )
           ],
         ),
       ),
