@@ -11,6 +11,8 @@ class _Pagina_listaState extends State<Pagina_lista> {
   final TextEditingController mensagensControlador = TextEditingController();
 
   List<Data_Hora> Mensagens = [];
+  Data_Hora? deletar_itens;
+  int? posicao_atual_deletar;
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +67,7 @@ class _Pagina_listaState extends State<Pagina_lista> {
                     for (Data_Hora item_data_hora in Mensagens)
                       tudoItemLista(
                         mensagem_data_hora: item_data_hora,
+                        item_deletar_tarefas: deletar_tarefas,
                       ),
                   ],
                 ),
@@ -89,6 +92,33 @@ class _Pagina_listaState extends State<Pagina_lista> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  void deletar_tarefas(Data_Hora item_data_hora) {
+    deletar_itens = item_data_hora;
+    posicao_atual_deletar = Mensagens.indexOf(item_data_hora);
+    setState(() {
+      Mensagens.remove(item_data_hora);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Tarefa ${item_data_hora.titulo} foi removida com sucesso",
+          style: TextStyle(
+              color: Colors.black, fontSize: 14, fontWeight: FontWeight.w600),
+        ),
+        backgroundColor: Color.fromARGB(204, 75, 14, 20),
+        action: SnackBarAction(
+          label: "Desfazer",
+          onPressed: () {
+            setState(() {
+              Mensagens.insert(posicao_atual_deletar!, deletar_itens!);
+            });
+          
+          },
         ),
       ),
     );
