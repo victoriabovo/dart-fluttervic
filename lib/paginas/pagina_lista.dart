@@ -1,14 +1,19 @@
 import 'package:app_lista_tarefas/modelo/objeto_data_hora.dart';
-import 'package:app_lista_tarefas/widgets/itens_lista.dart';
+import 'package:app_lista_tarefas/repositorio/repositorio.dart';
 import 'package:flutter/material.dart';
 
-class Pagina_lista extends StatefulWidget {
+import '../widgets/itens_lista.dart';
+
+final TextEditingController email_controle = TextEditingController();
+
+class Pagina_Lista extends StatefulWidget {
   @override
-  State<Pagina_lista> createState() => _Pagina_listaState();
+  State<Pagina_Lista> createState() => _Pagina_ListaState();
 }
 
-class _Pagina_listaState extends State<Pagina_lista> {
+class _Pagina_ListaState extends State<Pagina_Lista> {
   final TextEditingController mensagensControlador = TextEditingController();
+  final Repositorio objeto_repositorio = Repositorio();
 
   List<Data_Hora> Mensagens = [];
   Data_Hora? deletar_itens;
@@ -17,81 +22,89 @@ class _Pagina_listaState extends State<Pagina_lista> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: mensagensControlador,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Adicione uma tarefa",
-                          hintText: "Digite aqui"),
-                    ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: mensagensControlador,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Adicione uma tarefa",
+                        hintText: "Digite aqui"),
                   ),
-                  SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      String qualquercoisa = mensagensControlador.text;
-
-                      setState(() {
-                        Data_Hora item_data_hora = Data_Hora(
-                            titulo: qualquercoisa, data_hora: DateTime.now());
-                        Mensagens.add(
-                            item_data_hora); // Adicionando valores na lista Mensagens
-                      });
-
-                      mensagensControlador.clear();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 175, 41, 41),
-                        padding: EdgeInsets.all(20)),
-                    child: Icon(
-                      Icons.add,
-                      size: 30,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Flexible(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    for (Data_Hora item_data_hora in Mensagens)
-                      tudoItemLista(
-                        mensagem_data_hora: item_data_hora,
-                        item_deletar_tarefas: deletar_tarefas,
-                      ),
-                  ],
                 ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Row(
+                SizedBox(width: 7),
+                ElevatedButton(
+                  onPressed: () {
+                    String qualquercoisa = mensagensControlador.text;
+                    setState(() {
+                      Data_Hora item_data_hora = Data_Hora(
+                          titulo: qualquercoisa, data_hora: DateTime.now());
+                      Mensagens.add(item_data_hora);
+                    });
+                    objeto_repositorio.salvarLista(Mensagens);
+                    mensagensControlador.clear();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(204, 125, 14, 243),
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            SizedBox(
+              height: 320,
+              child: ListView(
+                shrinkWrap: true,
                 children: [
-                  Expanded(
-                    child: Text("Você possui 0 tarefas pendentes"),
-                  ),
-                  SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 179, 12, 18),
-                        padding: EdgeInsets.all(20)),
-                    child: Text("Limpar"),
-                  ),
+                  for (Data_Hora mensagem_controle in Mensagens)
+                    tudoItemLista(
+                      mensagem_data_hora: mensagem_controle,
+                      item_deletar_tarefas: deletar_tarefas,
+                    ),
                 ],
               ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  decoration: InputDecoration(
+                    labelText:
+                        "Você possui ${Mensagens.length} tarefas pendentes",
+                  ),
+                )),
+                SizedBox(width: 7),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      Mensagens.clear();
+                      mensagem_confirmacao();
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(204, 125, 14, 243),
+                  ),
+                  child: Text("Limpar"),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -107,20 +120,50 @@ class _Pagina_listaState extends State<Pagina_lista> {
       SnackBar(
         content: Text(
           "Tarefa ${item_data_hora.titulo} foi removida com sucesso",
-          style: TextStyle(
-              color: Colors.black, fontSize: 14, fontWeight: FontWeight.w600),
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
         ),
-        backgroundColor: Color.fromARGB(204, 75, 14, 20),
+        backgroundColor: Color.fromARGB(204, 125, 14, 243),
         action: SnackBarAction(
           label: "Desfazer",
           onPressed: () {
             setState(() {
               Mensagens.insert(posicao_atual_deletar!, deletar_itens!);
             });
-          
           },
         ),
       ),
+    );
+  }
+
+  void mensagem_confirmacao() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Limpar tudo?"),
+          content:
+              Text("Você tem certeza que deseja apagar todas as tarefas? "),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  Navigator.pop(context);
+                });
+              },
+              child: Text("Cancelar"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  Mensagens.clear();
+                  Navigator.pop(context);
+                });
+              },
+              child: Text("Limpar tudo"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

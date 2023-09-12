@@ -16,16 +16,15 @@ class tudoItemLista extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      endActionPane:  ActionPane(
+      endActionPane: ActionPane(
         motion: ScrollMotion(),
         children: [
           SlidableAction(
             flex: 2,
-            onPressed: (context){
+            onPressed: (context) {
               item_deletar_tarefas(mensagem_data_hora);
-
             },
-            backgroundColor: Color.fromARGB(255, 184, 99, 90),
+            backgroundColor: Color.fromARGB(255, 127, 5, 138),
             foregroundColor: Colors.white,
             icon: Icons.delete,
             label: 'Deletar',
@@ -37,7 +36,7 @@ class tudoItemLista extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Color.fromARGB(255, 190, 14, 64),
+            color: Color.fromARGB(255, 112, 30, 180),
           ),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
